@@ -18,7 +18,7 @@ Now if root has the higest value then we call heap as "MAX heap" other wise "MIN
 A heap can be n-ary, that is internal nodes can have atmost n-children. For now, lets talk about Binary-heap.
 ## Building a max heap?
 While creating a max-heap the only thing we have to ensure is root node must have highest value among its children.
-Generally we take heap in the form of array as input and arrange its element such a way that for each 
+Generally we take heap in the form of **array** as input and arrange its element such a way that for each 
 > arr\[ i ]; 
 
 > arr\[ i\*2+1 ] and arr\[ i\*2+2 ] 
@@ -41,10 +41,10 @@ void Build_max_heap(int* arr, int len)
         max_heapify(arr, len, i);
 }
 ```
-### The heapify algotithm
+### The heapify algorithm
 1. Store the index of root element\(i.e ***i*** ) in a temporary variable \(i.e ***max_ind*** ).
 2. Check whether value at index **max_ind** is highest or not among the elements at index **i\*2+1** and **i\*2+2**.
-3. If the value at **max_ind** not the highest, store the index of highest value at **max_ind**.
+3. If the value at **max_ind* not the highest, store the index of highest value at **max_ind**.
 4. If the value of **max_ind** is changed, Swap the value of root node with node at index == **max_ind**.
 5. If root value of certain heap is changed apply **heapify** to its child heap.
 ```
@@ -72,5 +72,31 @@ void max_heapify(int* arr, int len, int i)
 
     swap(arr+max_ind, arr+i);
     max_heapify(arr, len, max_ind);
+}
+```
+## How to use heap for sorting?
+Max heap will have always higest value at root node for given array.
+Now if we 
+1. Swap root node with last child node.
+> Node at index == n-1
+
+2. And build a heap for elements from index
+> 0 to n-1
+
+Now we can Keep extracting maximum element from the heap, until only one element left in the max heap.
+At last we will left with sorted array.
+```
+void max_heap_sort(int* arr, int len)
+{
+    while(len>1)
+    {
+        /*Swap the last element of heap with first element.
+        And decrement the size of heap by 1.
+        */
+        swap(arr, arr+--len);
+        max_heapify(arr, len, 0);
+        cout<<"Max Heap: ";
+        PRINT(arr, len);
+    }
 }
 ```
