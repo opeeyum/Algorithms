@@ -75,7 +75,7 @@ void max_heapify(int* arr, int len, int i)
 }
 ```
 ## How to use heap for sorting?
-Max heap will have always higest value at root node for given array.
+Max heap will always have highest value at root node for given array.
 Now if we 
 1. Swap root node with last child node.
 > Node at index == n-1
