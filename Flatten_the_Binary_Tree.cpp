@@ -1,11 +1,10 @@
 /* Algorithm to Flatten the Binary tree into linked list:
 
     Step 1 :- Create a Stack, push the root into the stack;
-    Step 2 :- Perform Pop onto the stack, push the child/children of the node, Recently popped from the stack (let's say node-N1), into the stack.
-              (Keep track of previous popped node.)
-    Step 3 :- If previously Popped node exits make its right child point to node that is popped in step 2(i.e N1), and left child as NULL,
-              update the previous pop to N1;
-          ----Repeat Step 2 and 3 until stack gets empty-----
+    Step 2 :- Perform Pop onto the stack.
+    Step 3 :- Push the child of recently popped node from the stack (let's say node-N1), into the stack.
+    Step 4 :- If previously Popped node exits, make its right child point to node that is popped in step 2(i.e N1), and left child as NULL, update the previous pop to N1;
+          ----Repeat Step 3 and 4 until stack gets empty-----
 */
 
 #include<iostream>
@@ -54,7 +53,7 @@ Node* Node::Flatten_the_Tree(Node *root)
     Node* prev = NULL;
     while(!s.empty())
     {
-        //Pointer to keep track of recent pop
+        //Pointer to keep track of latest pop
         Node *temp = s.top();
         //Pop the top of the stack
         s.pop();
