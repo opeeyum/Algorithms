@@ -12,9 +12,7 @@ class BST
 
         BST* create_node(int);
         BST* insert_(BST*, BST*);
-        void pre_order_traversal(BST*);
         void BFS_traversal(BST*);
-        void DFS_traversal(BST*);
 
 };
 
@@ -28,12 +26,8 @@ int main()
         BST* temp = obj.create_node(arr[i]);
         head = obj.insert_(head, temp);
     }
-    cout<<"Pre-order traversal: ";
-    obj.pre_order_traversal(head);
     cout<<"\n\nBreadth First Traversal: ";
     obj.BFS_traversal(head);
-    cout<<"\n\nDepth First Traversal: ";
-    obj.DFS_traversal(head);
     cout<<"\n\n";
 }
 
@@ -54,16 +48,6 @@ BST* BST::insert_(BST* head, BST* temp_head)
     return head;
 }
 
-void BST::pre_order_traversal(BST* head)
-{
-    if(head != NULL)
-    {
-        cout<<head->data<<" ";
-        pre_order_traversal(head->left);
-        pre_order_traversal(head->right);
-    }
-}
-
 void BST::BFS_traversal(BST *head)
 {
     if(!head)
@@ -78,24 +62,6 @@ void BST::BFS_traversal(BST *head)
             q.push(temp->left);
         if(temp->right)
             q.push(temp->right);
-        cout<<temp->data<<" ";
-    }
-}
-
-void BST::DFS_traversal(BST *head)
-{
-    if(!head)
-        return;
-    stack <BST*> s;
-    s.push(head);
-    while(!s.empty())
-    {
-        BST* temp = s.top();
-        s.pop();
-        if(temp->right)
-            s.push(temp->right);
-        if(temp->left)
-            s.push(temp->left);
         cout<<temp->data<<" ";
     }
 }

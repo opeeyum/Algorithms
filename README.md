@@ -1,2 +1,2 @@
 # Algorithms
-This repo contains solution to various algorithms and data structures solution that I have solved and found worth keeping the solutions. 
+This repo contains implementation of various algorithms that I have learned and found worth keeping them. 

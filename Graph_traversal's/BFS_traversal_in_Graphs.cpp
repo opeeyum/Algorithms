@@ -16,8 +16,9 @@ int main()
                       {0, 0, 1, 0, 0, 0, 0, 1},
                       {0, 0, 1, 0, 0, 0, 0, 1},
                       {0, 0, 0, 1, 1, 1, 1, 0},
+                    };
 
-    //Type casting the pointer to pointer to just pointer                  };
+    //Type casting the pointer to pointer to just pointer                  
     Print_Graph((int*)graph, 8);
     BFS((int*)graph, 8);
     cout<<endl;
