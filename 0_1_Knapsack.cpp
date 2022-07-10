@@ -6,7 +6,7 @@
 // 2. Equal Sum Partition - Done
 // 3. Count of Subset sum - Done
 // 4. Minimum Subset Sum Diff
-// 5. Target Sum
+// 5. Target Sum by assigning +/- operators
 // 6. Number of subset with given difference
 
 #include <iostream>
