@@ -6,8 +6,8 @@
 // 2. Equal Sum Partition - Done
 // 3. Count of Subset sum - Done
 // 4. Minimum Subset Sum Diff
-// 5. Target Sum by assigning +/- operators
-// 6. Number of subset with given difference
+// 5. Number of subset with given difference
+// 6. Target Sum by assigning +/- operators
 
 #include <iostream>
 #include <vector>
@@ -20,13 +20,19 @@ using namespace std;
 // Likeness to 0/1 knapsack is that,
 //      We can treat given array as weight array, each weight also represents its value,
 //      and the quantity of knapsack is equal to target.
+bool recursive_subset_sum(int *arr, int n, int target)
+{
+    if (target == 0)
+        return true;
+    else if (n == 0)
+        return false;
+    bool pick = false;
+    if (target >= arr[n - 1])
+        pick = recursive_subset_sum(arr, n - 1, target - arr[n - 1]);
+    return recursive_subset_sum(arr, n - 1, target) || pick;
+}
 bool subset_sum(int *arr, int n, int target)
 {
-    // Recursion:-
-    // if (target == 0)
-    //     return true;
-    // else if (n == 0)
-    //     return false;
     vector<vector<bool>> helper(n + 1, vector<bool>(target + 1, false));
 
     for (int i = 0; i < helper.size(); i++)
@@ -38,10 +44,6 @@ bool subset_sum(int *arr, int n, int target)
         }
     }
 
-    // bool pick = false;
-    // if (target >= arr[n - 1])
-    //     pick = subset_sum(arr, n - 1, target - arr[n - 1]);
-    // return subset_sum(arr, n - 1, target) || pick;
     for (int i = 1; i < helper.size(); i++)
     {
         for (int j = 1; j < helper[0].size(); j++)
@@ -52,11 +54,13 @@ bool subset_sum(int *arr, int n, int target)
     return helper[n][target];
 }
 
+// Problem statement:-
+//      For a given array creates ite two subsets such that their sum of elements is equal.
 // Algorithm, Equal sum partition:-
-// 1. Find the sum of all the elements of the given array.
-// 2. If sum is odd, we can't equally part it.
-// 3. If sum is even, we can reduce our problem to subset_sum,
-//    with given array and target as half of the sum from step 1.
+//      1. Find the sum of all the elements in the given array.
+//      2. If sum is odd, we can't equally part it.
+//      3. If sum is even, we can reduce our problem to subset_sum,
+//         with given array and target as half of the sum from Step 1.
 bool equal_sum_partition(int *arr, int n)
 {
     int sum = 0;
@@ -70,8 +74,23 @@ bool equal_sum_partition(int *arr, int n)
         return subset_sum(arr, n, sum / 2);
 }
 
+// Problem statement:-
+//      Count the number of subset(s), such that their sum equal to target.
 // Algorithm, Count subset sum:-
-// 1.
+//      In subset set sum we check whether subset exists or not.
+//      While counting we to add 1 if sum exists.
+int recursive_count_subset_sum(int *arr, int n, int target)
+{
+    if (target == 0)
+        return 1;
+    if (n == 0)
+        return 0;
+    int pick = 0;
+    if (target >= arr[n - 1])
+        pick = recursive_count_subset_sum(arr, n - 1, target - arr[n - 1]);
+
+    return recursive_count_subset_sum(arr, n - 1, target) + pick;
+}
 int count_subset_sum(int *arr, int n, int target)
 {
     vector<vector<int>> helper(n + 1, vector<int>(target + 1, 0));
@@ -97,10 +116,11 @@ int count_subset_sum(int *arr, int n, int target)
 
 int main()
 {
-    int arr[] = {2, 3, 7, 8, 10};
+    int arr[] = {2, 3, 6, 8, 10};
     int n = 5, target = 11;
     cout << "Is subset present with sum = " << target << ", " << subset_sum(arr, n, target) << ".\n";
     cout << "Is equal sum partition possible " << equal_sum_partition(arr, n) << ".\n";
+    cout << "Count subset(s) - Recursivly sum equal " << target << ", " << recursive_count_subset_sum(arr, n, target) << ".\n";
     cout << "Count subset(s) sum equal " << target << ", " << count_subset_sum(arr, n, target) << ".\n";
     return 0;
 }

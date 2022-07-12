@@ -51,6 +51,25 @@ void get_all_sub_set_sum(vector<int> &nums, multiset<int> &ans, int sum = 0, int
     get_all_sub_set_sum(nums, ans, sum + nums[ind], ind + 1);
     get_all_sub_set_sum(nums, ans, sum, ind + 1);
 }
+void get_all_permutation_using_map(vector<int> &nums, vector<vector<int>> &ans2, vector<int> &map, vector<int> &ds, int ind = 0)
+{
+    if (ind == nums.size())
+    {
+        ans2.push_back(ds);
+        return;
+    }
+    for (int i = ind; i < nums.size(); i++)
+    {
+        map[i] = 1;
+        for (int j = ind; j < map.size(); j++)
+        {
+            if (map[j])
+                ds.push_back(nums[j]);
+        }
+        get_all_permutation_using_map(nums, ans2, map, ds, ind + 1);
+        map[i] = 0;
+    }
+}
 void get_all_permutations(vector<int> &nums, vector<vector<int>> &ans2, int ind = 0)
 {
     if (ind == nums.size())
