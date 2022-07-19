@@ -2,19 +2,23 @@
 // Then, convert that recursion to tabulation.
 
 // Problems with minute variation with 0/1 knapsack.
-// 1. Subset Sum - Done
-// 2. Equal Sum Partition - Done
-// 3. Count of Subset sum - Done
+// 1. Subset Sum
+// 2. Equal Sum Partition
+// 3. Count of Subset sum
 // 4. Minimum Subset Sum Diff
 // 5. Number of subset with given difference
 // 6. Target Sum by assigning +/- operators
+// -> For each element take its positive value and negative value.
+
+// NOTE: If all the elements of given array needs to be present in the answer in certain orientation,
+// better to check for success when index reaches out of range.
 
 #include <iostream>
-#include <vector>
+#include <string.h>
 using namespace std;
 
-// Problem statement:-
-//      Given an array, and the target, check whether there exists any subset with sum equal given target.
+// 1. Problem statement:-
+//      Given an array and the target, check whether there exists any subset with sum equal given target.
 // Algortihm:-
 //      Find all the subsets and their respective sum and return True if any sum eqaul to target, else return false.
 // Likeness to 0/1 knapsack is that,
@@ -22,39 +26,41 @@ using namespace std;
 //      and the quantity of knapsack is equal to target.
 bool recursive_subset_sum(int *arr, int n, int target)
 {
+    // Base Condition
     if (target == 0)
         return true;
     else if (n == 0)
         return false;
+
+    // Pick condition
     bool pick = false;
     if (target >= arr[n - 1])
         pick = recursive_subset_sum(arr, n - 1, target - arr[n - 1]);
+
+    // Non Pick condition
     return recursive_subset_sum(arr, n - 1, target) || pick;
 }
-bool subset_sum(int *arr, int n, int target)
+
+bool tabulated_subset_sum(int *arr, int n, int target)
 {
-    vector<vector<bool>> helper(n + 1, vector<bool>(target + 1, false));
+    int ds[n + 1][target + 1];
 
-    for (int i = 0; i < helper.size(); i++)
+    memset(ds, 0, sizeof(ds));
+
+    for (int i = 0; i <= n; i++)
+        ds[i][0] = true;
+
+    for (int i = 1; i <= n; i++)
     {
-        for (int j = 0; j < helper[0].size(); j++)
+        for (int j = 1; j <= target; j++)
         {
-            if (j == 0)
-                helper[i][j] = true;
+            ds[i][j] = ds[i - 1][j] || (j - arr[i - 1] >= 0 ? ds[i - 1][j - arr[i - 1]] : false);
         }
     }
-
-    for (int i = 1; i < helper.size(); i++)
-    {
-        for (int j = 1; j < helper[0].size(); j++)
-        {
-            helper[i][j] = helper[i - 1][j] || (j - arr[i - 1] >= 0 ? helper[i - 1][j - arr[i - 1]] : false);
-        }
-    }
-    return helper[n][target];
+    return ds[n][target];
 }
 
-// Problem statement:-
+// 2. Problem statement:-
 //      For a given array creates ite two subsets such that their sum of elements is equal.
 // Algorithm, Equal sum partition:-
 //      1. Find the sum of all the elements in the given array.
@@ -71,10 +77,10 @@ bool equal_sum_partition(int *arr, int n)
         return false;
 
     else
-        return subset_sum(arr, n, sum / 2);
+        return tabulated_subset_sum(arr, n, sum / 2);
 }
 
-// Problem statement:-
+// 3. Problem statement:-
 //      Count the number of subset(s), such that their sum equal to target.
 // Algorithm, Count subset sum:-
 //      In subset set sum we check whether subset exists or not.
@@ -91,36 +97,33 @@ int recursive_count_subset_sum(int *arr, int n, int target)
 
     return recursive_count_subset_sum(arr, n - 1, target) + pick;
 }
-int count_subset_sum(int *arr, int n, int target)
+int tabulated_count_subset_sum(int *arr, int n, int target)
 {
-    vector<vector<int>> helper(n + 1, vector<int>(target + 1, 0));
+    int ds[n + 1][target + 1];
+    memset(ds, 0, sizeof(ds));
 
-    for (int i = 0; i < helper.size(); i++)
+    for (int i = 0; i <= n; i++)
+        ds[i][0] = 1;
+
+    for (int i = 1; i <= n; i++)
     {
-        for (int j = 0; j < helper[0].size(); j++)
+        for (int j = 1; j <= target; j++)
         {
-            if (j == 0)
-                helper[i][j] = 1;
-        }
-    }
-    for (int i = 1; i < helper.size(); i++)
-    {
-        for (int j = 1; j < helper[0].size(); j++)
-        {
-            helper[i][j] = helper[i - 1][j] + (j - arr[i - 1] >= 0 ? helper[i - 1][j - arr[i - 1]] : 0);
+            ds[i][j] = ds[i - 1][j] + (j - arr[i - 1] >= 0 ? ds[i - 1][j - arr[i - 1]] : 0);
         }
     }
 
-    return helper[n][target];
+    return ds[n][target];
 }
 
+// Driver Code
 int main()
 {
     int arr[] = {2, 3, 6, 8, 10};
     int n = 5, target = 11;
-    cout << "Is subset present with sum = " << target << ", " << subset_sum(arr, n, target) << ".\n";
+    cout << "Is subset present with sum = " << target << ", " << tabulated_subset_sum(arr, n, target) << ".\n";
     cout << "Is equal sum partition possible " << equal_sum_partition(arr, n) << ".\n";
     cout << "Count subset(s) - Recursivly sum equal " << target << ", " << recursive_count_subset_sum(arr, n, target) << ".\n";
-    cout << "Count subset(s) sum equal " << target << ", " << count_subset_sum(arr, n, target) << ".\n";
+    cout << "Count subset(s) sum equal " << target << ", " << tabulated_count_subset_sum(arr, n, target) << ".\n";
     return 0;
 }

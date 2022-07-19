@@ -1,6 +1,7 @@
 // In 0/1 knapsack problem, we have only two choices
 // either pick the element or not pick the element and element can only be picked once.
-// But in unbonded knapsack, when we pick the element there is no such reistriction of picking element once.
+// But in unbounded knapsack, when we pick the element there is no such reistriction of picking element once
+// It is generally considered there is infinite supply of the element.
 
 // Problems under unbounded knapsack:-
 //  1. Rod cutting Problem.
@@ -62,4 +63,23 @@ int coin_change_tabulated(vector<int> &coins, int amount)
     if (ds[row - 1][col - 1] == INT_MAX - 1)
         return -1;
     return ds[row - 1][col - 1];
+}
+
+int number_of_ways_to_get_amt(int amt, vector<int> coins, int ind)
+{
+    // Base Conditions
+    if (amt == 0)
+        return 1;
+
+    if (ind == 0)
+        return 0;
+
+    // Calculation and minimised call
+    int pick = 0;
+    if (amt >= coins[ind - 1])
+        pick = number_of_ways_to_get_amt(amt - coins[ind - 1], coins, ind);
+
+    int not_pick = number_of_ways_to_get_amt(amt, coins, ind - 1);
+
+    return pick + not_pick;
 }
