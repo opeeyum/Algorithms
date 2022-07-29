@@ -1,7 +1,7 @@
 # Algorithms
 This repo contains implementation of various algorithms that I have learned and found worth keeping them. 
 
-`Each of file contains the all question relation to one concept and having some variation.`
+`Each of file contains the all questions related to one concept and having some variation.`
 
 - ### 0/1 knapsack
         1. Subset Sum
