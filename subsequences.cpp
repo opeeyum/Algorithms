@@ -86,23 +86,23 @@ void get_all_permutations(vector<int> &nums, vector<vector<int>> &ans2, int ind 
 }
 int main()
 {
-    vector<int> nums = {1, 2, 3};
+    vector<int> nums = {5, 3, 10, 12, 25, 20};
     vector<int> temp;
     multiset<int> ans;
-    // print_all_subsequence(nums, temp);
+    print_all_subsequence(nums, temp);
     // subsequence_with_given_sum(nums, temp, 5);
     // get_all_sub_set_sum(nums, ans);
     // for (auto i : ans)
     //     cout << i << " ";
     // cout << "\n";
-    vector<vector<int>> ans2;
-    get_all_permutations(nums, ans2);
-    for (int i = 0; i < ans2.size(); i++)
-    {
-        for (int j = 0; j < ans2[i].size(); j++)
-            cout << ans2[i][j] << " ";
-        cout << endl;
-    }
+    // vector<vector<int>> ans2;
+    // get_all_permutations(nums, ans2);
+    // for (int i = 0; i < ans2.size(); i++)
+    // {
+    //     for (int j = 0; j < ans2[i].size(); j++)
+    //         cout << ans2[i][j] << " ";
+    //     cout << endl;
+    // }
 
     return 0;
 }
